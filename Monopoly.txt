@@ -1,0 +1,23 @@
+-> Tablero:
+	-->Casillas
+		--->Son Propiedades
+			---->Avenidas
+			---->Ferrocarriles
+			---->Servicios
+		--->Cartas
+			---->Chance
+			---->El otro que no recuerdo
+		--->Carcel
+		--->Go
+		--->Pase libre
+-> Jugadores:
+	-->Tienen Dinero
+	-->Tienen Propiedades
+	-->Tienen Cartas(opcional)
+	-->Tienen Edificios
+		--->Casas
+		--->Hoteles
+-> Banco:
+	-->Dinero
+	-->Propiedades
+	-->Edificios
