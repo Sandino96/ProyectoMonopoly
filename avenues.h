@@ -8,6 +8,7 @@ class avenues : public properties{
   public:
   	avenues(double,double,bool,int,int);
   	virtual ~avenues();
-  	virtual string toString()const;
-  	string name(int);
+  	string toString()const;
+  	void printAvenue(int);
+  	bool turnInSquare(bool);
 };

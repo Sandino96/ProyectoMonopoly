@@ -1,12 +1,13 @@
 #pragma once
 #include <string>
 
+using std::string;
+
 class square{
-	bool gameOn;
 
   public:
-  	board(bool);
-  	virtual~board();
-  	string toString()const;
+  	square();
+  	virtual~square();
+  	virtual string toString()const = 0;
   	virtual bool turnInSquare(bool) = 0;
-}
+};

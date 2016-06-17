@@ -1,4 +1,5 @@
 #include <string>
+#include "square.h"
 
 using std::string;
 

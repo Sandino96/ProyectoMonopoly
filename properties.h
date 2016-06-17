@@ -1,9 +1,10 @@
 #pragma once
 #include <string>
+#include "square.h"
 
 using std::string;
 
-class properties{
+class properties: public square{
 	double price;
 	double mortgaged;
 	bool owner;
@@ -11,7 +12,4 @@ class properties{
   public:
   	properties(double,double,bool);
   	virtual~properties();
-  	//virtual string name();
-  	virtual string toString() const = 0;
-  	bool turnInSquare(bool);
 };

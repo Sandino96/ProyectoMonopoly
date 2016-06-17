@@ -10,4 +10,3 @@ properties::properties(double price, double mortgaged, bool owner):price(price),
 
 properties::~properties(){
 }
-
