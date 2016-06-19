@@ -7,13 +7,13 @@
 using std::string;
 using std::stringstream;
 
-avenues::avenues(double price, double mortgaged,bool owner, int houses, int hotels):properties(price,mortgaged,owner),houses(houses),hotels(hotels){
+avenues::avenues(double price, double mortgaged,bool owner,double rent, int houses, int hotels):properties(price,mortgaged,owner,rent),houses(houses),hotels(hotels){
 }
 
 avenues::~avenues(){
 }
 
-void avenues::printAvenue(int option){
+void avenues::printSquare(int option){
 	if(option == 1){
 		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_WHITE,COLOR_BLACK);
@@ -21,7 +21,7 @@ void avenues::printAvenue(int option){
 		mvprintw(10,20,"****************************************\n");
 		mvprintw(11,20,"*                                      *\n");
 		mvprintw(12,20,"*           Mediterranean Ave.         *\n");
-		mvprintw(13,20,"*        	                           *\n");
+		mvprintw(13,20,"*                                      *\n");
 		mvprintw(14,20,"****************************************\n");
 		attroff(COLOR_PAIR(2));
 		attron(COLOR_PAIR(1));
@@ -42,7 +42,7 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 2){
+ 	} else if(option == 3){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_WHITE,COLOR_BLACK);
 		attron(COLOR_PAIR(2));
@@ -70,7 +70,7 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 3){
+ 	} else if(option == 6){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_MAGENTA);
 		attron(COLOR_PAIR(2));
@@ -98,7 +98,7 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 4){
+ 	} else if(option == 8){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_MAGENTA);
 		attron(COLOR_PAIR(2));
@@ -126,17 +126,42 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 5){
+ 	} else if(option == 9){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
-		//init_pair(2,COLOR_BLACK,COLOR_RED);
+		init_pair(2,COLOR_BLACK,COLOR_MAGENTA);
+		attron(COLOR_PAIR(2));
+		mvprintw(10,20,"****************************************\n");
+		mvprintw(11,20,"*                                      *\n");
+		mvprintw(12,20,"*            Connecticut Ave.          *\n");
+		mvprintw(13,20,"*        	                           *\n");
+		mvprintw(14,20,"****************************************\n");
+		attroff(COLOR_PAIR(2));
+		attron(COLOR_PAIR(1));
+		mvprintw(15,20,"*                                      *\n");
+		mvprintw(16,20,"*                Rent $8               *\n");
+		mvprintw(17,20,"*                                      *\n");
+		mvprintw(18,20,"*                                      *\n");
+		mvprintw(19,20,"*       with 1 house ---->    $40      *\n");
+		mvprintw(20,20,"*       with 2 houses---->   $100      *\n");
+		mvprintw(21,20,"*       with 3 houses---->   $300      *\n");
+		mvprintw(22,20,"*       with 4 houses---->   $450      *\n");
+		mvprintw(23,20,"*       with hotel------->   $600      *\n");
+		mvprintw(24,20,"*                                      *\n");
+		mvprintw(25,20,"*                                      *\n");
+		mvprintw(26,20,"*          Mortgage Value $60          *\n");
+		mvprintw(27,20,"*                                      *\n");
+		mvprintw(28,20,"*                                      *\n");
+		mvprintw(29,20,"*                                      *\n");
+		mvprintw(30,20,"****************************************\n");
+		attroff(COLOR_PAIR(1));
+ 	} else if(option == 11){
+ 		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		attron(COLOR_PAIR(1));
 		mvprintw(10,20,"****************************************\n");
 		mvprintw(11,20,"*                                      *\n");
 		mvprintw(12,20,"*               States Ave.            *\n");
 		mvprintw(13,20,"*        	                           *\n");
 		mvprintw(14,20,"****************************************\n");
-		//attroff(COLOR_PAIR(2));
-		//attron(COLOR_PAIR(1));
 		mvprintw(15,20,"*                                      *\n");
 		mvprintw(16,20,"*               Rent $10               *\n");
 		mvprintw(17,20,"*                                      *\n");
@@ -154,17 +179,39 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 6){
+ 	} else if(option == 13){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
-		//init_pair(2,COLOR_BLACK,COLOR_RED);
+		attron(COLOR_PAIR(1));
+		mvprintw(10,20,"****************************************\n");
+		mvprintw(11,20,"*                                      *\n");
+		mvprintw(12,20,"*           ST. Charles Place          *\n");
+		mvprintw(13,20,"*        	                           *\n");
+		mvprintw(14,20,"****************************************\n");
+		mvprintw(15,20,"*                                      *\n");
+		mvprintw(16,20,"*               Rent $10               *\n");
+		mvprintw(17,20,"*                                      *\n");
+		mvprintw(18,20,"*                                      *\n");
+		mvprintw(19,20,"*       with 1 house ---->    $50      *\n");
+		mvprintw(20,20,"*       with 2 houses---->   $150      *\n");
+		mvprintw(21,20,"*       with 3 houses---->   $450      *\n");
+		mvprintw(22,20,"*       with 4 houses---->   $625      *\n");
+		mvprintw(23,20,"*       with hotel------->   $750      *\n");
+		mvprintw(24,20,"*                                      *\n");
+		mvprintw(25,20,"*                                      *\n");
+		mvprintw(26,20,"*          Mortgage Value $70          *\n");
+		mvprintw(27,20,"*                                      *\n");
+		mvprintw(28,20,"*                                      *\n");
+		mvprintw(29,20,"*                                      *\n");
+		mvprintw(30,20,"****************************************\n");
+		attroff(COLOR_PAIR(1));
+ 	} else if(option == 14){
+ 		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		attron(COLOR_PAIR(1));
 		mvprintw(10,20,"****************************************\n");
 		mvprintw(11,20,"*                                      *\n");
 		mvprintw(12,20,"*              Virginia Ave.           *\n");
 		mvprintw(13,20,"*        	                           *\n");
 		mvprintw(14,20,"****************************************\n");
-		//attroff(COLOR_PAIR(2));
-		//attron(COLOR_PAIR(1));
 		mvprintw(15,20,"*                                      *\n");
 		mvprintw(16,20,"*               Rent $12               *\n");
 		mvprintw(17,20,"*                                      *\n");
@@ -182,7 +229,7 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 7){
+ 	}else if(option == 16){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_CYAN);
 		attron(COLOR_PAIR(2));
@@ -210,7 +257,7 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 8){
+ 	} else if(option == 18){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_CYAN);
 		attron(COLOR_PAIR(2));
@@ -238,7 +285,35 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 9){
+ 	} else if(option == 19){
+ 		init_pair(1,COLOR_BLACK,COLOR_WHITE);
+		init_pair(2,COLOR_BLACK,COLOR_CYAN);
+		attron(COLOR_PAIR(2));
+		mvprintw(10,20,"****************************************\n");
+		mvprintw(11,20,"*                                      *\n");
+		mvprintw(12,20,"*            ST. James Place           *\n");
+		mvprintw(13,20,"*        	                           *\n");
+		mvprintw(14,20,"****************************************\n");
+		attroff(COLOR_PAIR(2));
+		attron(COLOR_PAIR(1));
+		mvprintw(15,20,"*                                      *\n");
+		mvprintw(16,20,"*               Rent $14               *\n");
+		mvprintw(17,20,"*                                      *\n");
+		mvprintw(18,20,"*                                      *\n");
+		mvprintw(19,20,"*       with 1 house ---->    $70      *\n");
+		mvprintw(20,20,"*       with 2 houses---->   $200      *\n");
+		mvprintw(21,20,"*       with 3 houses---->   $550      *\n");
+		mvprintw(22,20,"*       with 4 houses---->   $750      *\n");
+		mvprintw(23,20,"*       with hotel------->   $950      *\n");
+		mvprintw(24,20,"*                                      *\n");
+		mvprintw(25,20,"*                                      *\n");
+		mvprintw(26,20,"*          Mortgage Value $90          *\n");
+		mvprintw(27,20,"*                                      *\n");
+		mvprintw(28,20,"*                                      *\n");
+		mvprintw(29,20,"*                                      *\n");
+		mvprintw(30,20,"****************************************\n");
+		attroff(COLOR_PAIR(1));
+ 	} else if(option == 21){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_RED);
 		attron(COLOR_PAIR(2));
@@ -266,7 +341,7 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 10){
+ 	} else if(option == 23){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_RED);
 		attron(COLOR_PAIR(2));
@@ -294,7 +369,35 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 11){
+ 	} else if(option == 24){
+ 		init_pair(1,COLOR_BLACK,COLOR_WHITE);
+		init_pair(2,COLOR_BLACK,COLOR_RED);
+		attron(COLOR_PAIR(2));
+		mvprintw(10,20,"****************************************\n");
+		mvprintw(11,20,"*                                      *\n");
+		mvprintw(12,20,"*             Illionis Ave.            *\n");
+		mvprintw(13,20,"*        	                           *\n");
+		mvprintw(14,20,"****************************************\n");
+		attroff(COLOR_PAIR(2));
+		attron(COLOR_PAIR(1));
+		mvprintw(15,20,"*                                      *\n");
+		mvprintw(16,20,"*               Rent $20               *\n");
+		mvprintw(17,20,"*                                      *\n");
+		mvprintw(18,20,"*                                      *\n");
+		mvprintw(19,20,"*       with 1 house ---->   $100      *\n");
+		mvprintw(20,20,"*       with 2 houses---->   $300      *\n");
+		mvprintw(21,20,"*       with 3 houses---->   $750      *\n");
+		mvprintw(22,20,"*       with 4 houses---->   $925      *\n");
+		mvprintw(23,20,"*       with hotel------->  $1100      *\n");
+		mvprintw(24,20,"*                                      *\n");
+		mvprintw(25,20,"*                                      *\n");
+		mvprintw(26,20,"*          Mortgage Value $120         *\n");
+		mvprintw(27,20,"*                                      *\n");
+		mvprintw(28,20,"*                                      *\n");
+		mvprintw(29,20,"*                                      *\n");
+		mvprintw(30,20,"****************************************\n");
+		attroff(COLOR_PAIR(1));
+ 	} else if(option == 26){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_YELLOW);
 		attron(COLOR_PAIR(2));
@@ -322,7 +425,7 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 12){
+ 	} else if(option == 27){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_YELLOW);
 		attron(COLOR_PAIR(2));
@@ -350,7 +453,35 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 13){
+ 	} else if(option == 29){
+ 		init_pair(1,COLOR_BLACK,COLOR_WHITE);
+		init_pair(2,COLOR_BLACK,COLOR_YELLOW);
+		attron(COLOR_PAIR(2));
+		mvprintw(10,20,"****************************************\n");
+		mvprintw(11,20,"*                                      *\n");
+		mvprintw(12,20,"*             Marvin Gardens           *\n");
+		mvprintw(13,20,"*        	                           *\n");
+		mvprintw(14,20,"****************************************\n");
+		attroff(COLOR_PAIR(2));
+		attron(COLOR_PAIR(1));
+		mvprintw(15,20,"*                                      *\n");
+		mvprintw(16,20,"*               Rent $24               *\n");
+		mvprintw(17,20,"*                                      *\n");
+		mvprintw(18,20,"*                                      *\n");
+		mvprintw(19,20,"*       with 1 house ---->   $120      *\n");
+		mvprintw(20,20,"*       with 2 houses---->   $360      *\n");
+		mvprintw(21,20,"*       with 3 houses---->   $850      *\n");
+		mvprintw(22,20,"*       with 4 houses---->  $1025      *\n");
+		mvprintw(23,20,"*       with hotel------->  $1200      *\n");
+		mvprintw(24,20,"*                                      *\n");
+		mvprintw(25,20,"*                                      *\n");
+		mvprintw(26,20,"*          Mortgage Value $140         *\n");
+		mvprintw(27,20,"*                                      *\n");
+		mvprintw(28,20,"*                                      *\n");
+		mvprintw(29,20,"*                                      *\n");
+		mvprintw(30,20,"****************************************\n");
+		attroff(COLOR_PAIR(1));
+ 	} else if(option == 31){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_GREEN);
 		attron(COLOR_PAIR(2));
@@ -378,7 +509,7 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 14){
+ 	} else if(option == 32){
  		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_GREEN);
 		attron(COLOR_PAIR(2));
@@ -406,7 +537,35 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 14){
+ 	} else if(option == 34){
+ 		init_pair(1,COLOR_BLACK,COLOR_WHITE);
+		init_pair(2,COLOR_BLACK,COLOR_GREEN);
+		attron(COLOR_PAIR(2));
+		mvprintw(10,20,"****************************************\n");
+		mvprintw(11,20,"*                                      *\n");
+		mvprintw(12,20,"*           Pennsylvania Ave.          *\n");
+		mvprintw(13,20,"*        	                           *\n");
+		mvprintw(14,20,"****************************************\n");
+		attroff(COLOR_PAIR(2));
+		attron(COLOR_PAIR(1));
+		mvprintw(15,20,"*                                      *\n");
+		mvprintw(16,20,"*               Rent $28               *\n");
+		mvprintw(17,20,"*                                      *\n");
+		mvprintw(18,20,"*                                      *\n");
+		mvprintw(19,20,"*       with 1 house ---->   $150      *\n");
+		mvprintw(20,20,"*       with 2 houses---->   $450      *\n");
+		mvprintw(21,20,"*       with 3 houses---->  $1000      *\n");
+		mvprintw(22,20,"*       with 4 houses---->  $1200      *\n");
+		mvprintw(23,20,"*       with hotel------->  $1400      *\n");
+		mvprintw(24,20,"*                                      *\n");
+		mvprintw(25,20,"*                                      *\n");
+		mvprintw(26,20,"*          Mortgage Value $160         *\n");
+		mvprintw(27,20,"*                                      *\n");
+		mvprintw(28,20,"*                                      *\n");
+		mvprintw(29,20,"*                                      *\n");
+		mvprintw(30,20,"****************************************\n");
+		attroff(COLOR_PAIR(1));
+ 	} else if(option == 37){
 		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_BLUE);
 		attron(COLOR_PAIR(2));
@@ -434,7 +593,7 @@ void avenues::printAvenue(int option){
 		mvprintw(29,20,"*                                      *\n");
 		mvprintw(30,20,"****************************************\n");
 		attroff(COLOR_PAIR(1));
- 	} else if(option == 15){
+ 	} else if(option == 39){
 		init_pair(1,COLOR_BLACK,COLOR_WHITE);
 		init_pair(2,COLOR_BLACK,COLOR_BLUE);
 		attron(COLOR_PAIR(2));
@@ -467,7 +626,12 @@ void avenues::printAvenue(int option){
 
 string avenues::toString() const{
 	stringstream ss;
-	ss << "Avenue";
+	ss << "Price: $" << price << " - Have owner -> ";
+	if(owner){
+		ss << "Yes";
+	} else {
+		ss << "No";
+	}
 	return ss.str();
 }
 

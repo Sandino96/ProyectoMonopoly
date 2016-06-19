@@ -9,5 +9,6 @@ class square{
   	square();
   	virtual~square();
   	virtual string toString()const = 0;
+  	virtual void printSquare(int) = 0;
   	virtual bool turnInSquare(bool) = 0;
 };

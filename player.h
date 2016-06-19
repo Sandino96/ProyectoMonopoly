@@ -1,15 +1,17 @@
 #pragma once
 #include <string>
-//#include "properties.h"
+#include "properties.h"
 //#include "buildings.h"
-//#include <vector>
+#include <vector>
 
 using std::string;
+using std::vector;
 
 class player{
-	//vector<Properties*> mayor;
 	//cardOption option;
 	//vector<Buildings*> propietor;
+  protected:
+  	vector<properties*> mayor;
 	string name;
 	double wallet;
 	int turn;
@@ -20,6 +22,10 @@ class player{
 	string toString() const;
 	int isTurn(int,int,int);
 	int getTurn();
-	bool winner(bool);
+	void setTurn(int);
+	string getName();
+	bool isWinner(bool);
 	void setWallet(double);
+	void setProperties(vector<properties*>);
+	vector<properties*> getProperties();
 };
