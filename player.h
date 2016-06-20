@@ -25,6 +25,7 @@ class player{
 	void setTurn(int);
 	string getName();
 	bool isWinner(bool);
+	double getWallet();
 	void setWallet(double);
 	void setProperties(vector<properties*>);
 	vector<properties*> getProperties();

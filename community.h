@@ -1,11 +1,13 @@
 #pragma once
-#include "properties.h"
+#include "square.h"
 #include <string>
 
-class railway : public properties{
+using std::string;
+
+class community : public square{
   public:
-  	railway(double,double,bool,double);
-  	virtual ~railway();
+  	community();
+  	virtual ~community();
   	string toString() const;
   	void printSquare(int);
   	bool turnInSquare(bool);

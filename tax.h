@@ -1,11 +1,11 @@
 #pragma once
-#include "properties.h"
+#include "square.h"
 #include <string>
 
-class railway : public properties{
+class tax : public square{
   public:
-  	railway(double,double,bool,double);
-  	virtual ~railway();
+  	tax();
+  	virtual ~tax();
   	string toString() const;
   	void printSquare(int);
   	bool turnInSquare(bool);

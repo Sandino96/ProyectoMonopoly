@@ -15,6 +15,10 @@ bool properties::getOwner(){
 	return owner;
 }
 
+void properties::setOwner(bool owner){
+	this -> owner = owner;
+}
+
 double properties::getMortgaged(){
 	return mortgaged;
 }

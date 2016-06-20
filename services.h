@@ -2,10 +2,11 @@
 #include "properties.h"
 #include <string>
 
-class Services : public properties{
+class services : public properties{
   public:
-	Services();
-	virtual~Services();
-	virtual string toString() const;
-	string position(int);
+	services(double,double,bool,double);
+	virtual~services();
+	string toString() const;
+	void printSquare(int);
+	bool turnInSquare(bool);
 };

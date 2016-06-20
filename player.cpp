@@ -1,7 +1,6 @@
 #include <string>
 #include "player.h"
 #include "properties.h"
-//#include "buildings.h"
 #include <vector>
 #include <sstream>
 
@@ -53,6 +52,10 @@ bool player::isWinner(bool over){
 	} else {
 		return false;
 	}
+}
+
+double player::getWallet(){
+	return this -> wallet;
 }
 
 void player::setWallet(double wallet){
