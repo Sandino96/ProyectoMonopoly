@@ -1,4 +1,5 @@
 #include "avenues.h"
+#include "player.h"
 #include "properties.h"
 #include <ncurses.h>
 #include <string>
@@ -635,6 +636,43 @@ string avenues::toString() const{
 	return ss.str();
 }
 
-bool avenues::turnInSquare(bool hola){
-	return hola;
+void avenues::turnInSquare(vector <square*> board, player& player1, player& player2){
+	if(static_cast<properties*>(board.at(player1 -> getTurn())) -> getOwner()){
+		bool haveIt = false;
+		for (int i = 0; i < (player1 -> getProperties()).size(); i++){
+			if(player1 -> getProperties().at(i) == (board.at(player1 -> getTurn())))
+				haveIt = true;
+		}
+		if (haveIt){
+			mvprintw(10,80,"This property is yours");
+			mvprintw(12,80,"Do you want to buy a house or houses [Y=Yes/N=No]");
+		} else {
+			mvprintw(10,80,"This property is owned by -> ",player2 -> getName().c_str());
+			player2 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn()))) -> getRent());
+			player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getRent()) * -1);
+		}
+	} else {
+		char keyProperty[1];
+		mvprintw(10,80,"Choose your option");
+		mvprintw(12,80,"1.-Sale this property");
+		mvprintw(14,80,"2.-Ignore this and move on");
+		mvprintw(16,80,"Your option -> ");
+		getstr(keyProperty);
+		if(keyProperty[0] == '1'){
+			char keyPropertyConfirm[1];
+			mvprintw(18,80,"Are you sure do you want to sale this property? [Y=Yes/N=No]");
+			getstr(keyPropertyConfirm);
+			if(keyPropertyConfirm[0] == 'Y' || keyPropertyConfirm[0] == 'y'){
+				if(player1 -> getWallet() > static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()){
+					player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()) * -1);
+					mvprintw(20,80,"This property has been sale for you :3");
+					(player1 -> setProperties(static_cast<properties*>(board.at(player1 -> getTurn()))));
+					static_cast<properties*>(board.at(player1 -> getTurn())) -> setOwner(true);
+				}
+			} else if(keyPropertyConfirm[0] == 'N' || keyPropertyConfirm[0] == 'n')
+				mvprintw(18,80,"Ok, thanks for coming :3");
+		} else if (keyProperty[0] == '2'){
+			mvprintw(18,80,"Ok, get out of here then >.<");
+		}
+	}
 }

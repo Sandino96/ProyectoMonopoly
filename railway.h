@@ -8,5 +8,5 @@ class railway : public properties{
   	virtual ~railway();
   	string toString() const;
   	void printSquare(int);
-  	bool turnInSquare(bool);
+	void turnInSquare(vector<square*>,player&,player&);
 };

@@ -9,5 +9,5 @@ class go : public square{
   	virtual ~go();
   	virtual string toString() const;
   	bool turnInSquare(bool);
-  	void printSquare(int);
+	void turnInSquare(vector<square*>,player&,player&);
 };

@@ -1,6 +1,9 @@
 #pragma once
 #include "properties.h"
+#include "player.h"
 #include <string>
+
+using std::string;
 
 class avenues : public properties{
 	int houses;
@@ -10,5 +13,5 @@ class avenues : public properties{
   	virtual ~avenues();
   	string toString()const;
   	void printSquare(int);
-  	bool turnInSquare(bool);
+  	void turnInSquare(vector<square*>,player&,player&);
 };

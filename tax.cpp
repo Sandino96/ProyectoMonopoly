@@ -77,6 +77,6 @@ void tax::printSquare(int option){
 	}
 }
 
-bool tax::turnInSquare(bool hola){
-	return hola;
+void tax::turnInSquare(vector <square*> board, player& player1, player& player2){
+	
 }

@@ -75,6 +75,6 @@ void jail::printSquare(int option){
 	}
 }
 
-bool jail::turnInSquare(bool hola){
-	return hola;
+void jail::turnInSquare(vector <square*> board, player& player1, player& player2){
+	
 }

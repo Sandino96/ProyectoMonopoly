@@ -51,6 +51,6 @@ void community::printSquare(int option){
 	}
 }
 
-bool community::turnInSquare(bool hola){
-	return hola;
+void community::turnInSquare(vector <square*> board, player& player1, player& player2){
+	
 }

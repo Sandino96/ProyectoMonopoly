@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <vector>
 #include <typeinfo>
+#include <fstream>
+#include <cstdlib>
 #include "square.h"
 #include "services.h"
 #include "railway.h"
@@ -21,6 +23,9 @@
 using std::string;
 using std::stringstream;
 using std::vector;
+using std::ofstream;
+using std::ifstream;
+using std::ios;
 
 void boardPic();
 void cleanScreen();
@@ -30,6 +35,8 @@ void drawDiceTwo(int);
 int main(int argc, char*argv[]){
 	initscr();
 	start_color();
+	char filename[80] = "Monopoly.bin";
+	//strcpy(filename, argv[1]);
 	char key[1];
 	vector <square*> board;
 	bool game = true;
@@ -132,7 +139,9 @@ int main(int argc, char*argv[]){
 							dice1 = (1 + rand() % 6);
 							dice2 = (1 + rand() % 6);
 							spaces = dice1 + dice2;
+							player1 -> setTurn(39);
 							player1 -> setTurn(spaces);
+							mvprintw(20,80,"%d",player1 -> getTurn());
 							init_pair(1, COLOR_BLACK, COLOR_WHITE);
 							attron(COLOR_PAIR(1));
 							drawDiceOne(dice1);
@@ -145,11 +154,11 @@ int main(int argc, char*argv[]){
 							mvprintw(32,20, board.at(player1 -> getTurn()) -> toString().c_str());
 							getch();
 							echo();
-							if(typeid(*board.at(player1 -> getTurn())) == typeid(properties)){
+							if(typeid(*board.at(player1 -> getTurn())) == typeid(avenues)){
 								if(static_cast<properties*>(board.at(player1 -> getTurn())) -> getOwner()){
 									bool haveIt = false;
 									for (int i = 0; i < (player1 -> getProperties()).size(); i++){
-										if((player1 -> getProperties()).at(i) == (board.at(player1 -> getTurn())))
+										if(player1 -> getProperties().at(i) == (board.at(player1 -> getTurn())))
 											haveIt = true;
 									}
 									if (haveIt){
@@ -173,20 +182,24 @@ int main(int argc, char*argv[]){
 										getstr(keyPropertyConfirm);
 										if(keyPropertyConfirm[0] == 'Y' || keyPropertyConfirm[0] == 'y'){
 											if(player1 -> getWallet() > static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()){
-												player1 -> setWallet(static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice());
+												player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()) * -1);
 												mvprintw(20,80,"This property has been sale for you :3");
-												player1 -> getProperties().push_back(static_cast<properties*>(board.at(player1 -> getTurn())));
+												(player1 -> setProperties(static_cast<properties*>(board.at(player1 -> getTurn()))));
 												static_cast<properties*>(board.at(player1 -> getTurn())) -> setOwner(true);
 											}
 										} else if(keyPropertyConfirm[0] == 'N' || keyPropertyConfirm[0] == 'n')
 											mvprintw(18,80,"Ok, thanks for coming :3");
+									} else if (keyProperty[0] == '2'){
+										mvprintw(18,80,"Ok, get out of here then >.<");
 									}
 								}
 							}
+							getch();
+							cleanScreen();
 							playerTurn++;
 						} else if (keyPlayer[0] == '2'){
 							if((player1 -> getProperties()).empty())
-								mvprintw(14,80,"You don't have properties                                   ");
+								mvprintw(14,80,"You don't have any properties                                ");
 							else {
 								for (int i = 0; i < player1 -> getProperties().size(); i++)
 									mvprintw(14+i,80,(player1 -> getProperties().at(i)) -> toString().c_str());
@@ -198,7 +211,13 @@ int main(int argc, char*argv[]){
 							mvprintw(14,80,"Player 1 quick, Player 2 is the winner");
 							players = false;
 						} else if (keyPlayer[0] == '5'){
-
+							ofstream output(filename, ios::binary || ios::out);
+							output.write(reinterpret_cast<char*>(&player1),sizeof(player1));
+							output.write(reinterpret_cast<char*>(&player2),sizeof(player2));
+							output.write(reinterpret_cast<char*>(&board),sizeof(board));
+							mvprintw(13,80,"Save game, don't worry, your can play later :3");
+							getch();
+							players = false;
 						} else if (keyPlayer[0] == '6'){
 							mvprintw(13,80,"Thanks for playing! :D");
 							players = false;
@@ -206,6 +225,133 @@ int main(int argc, char*argv[]){
 					} else if(playerTurn == 2 && !player1 -> isWinner(gameOverPlayer1) && !player2 -> isWinner(gameOverPlayer2)){
 						mvprintw(4,80, "Player %d",playerTurn);
 						mvprintw(4,89, player2 -> getName().c_str());
+						mvprintw(5,80,"Choose your option...");
+						mvprintw(6,80,"1.-Throwing dice\n");
+						mvprintw(7,80,"2.-See your properties\n");
+						mvprintw(8,80,"3.-See your data\n");
+						mvprintw(9,80,"4.-Quick\n");
+						mvprintw(10,80,"5.-Save game\n");
+						mvprintw(11,80,"6.-End of the game\n");
+						mvprintw(12,80,"Your option? -> ");
+						getstr(keyPlayer);
+						if(keyPlayer[0] == '1'){
+							dice1 = (1 + rand() % 6);
+							dice2 = (1 + rand() % 6);
+							spaces = dice1 + dice2;
+							player2 -> setTurn(spaces);
+							init_pair(1, COLOR_BLACK, COLOR_WHITE);
+							attron(COLOR_PAIR(1));
+							drawDiceOne(dice1);
+							drawDiceTwo(dice2);
+							attroff(COLOR_PAIR(1));
+							noecho();
+							getch();
+							cleanScreen();
+							board.at(player2 -> getTurn()) -> printSquare(player2 -> getTurn());
+							mvprintw(32,20, board.at(player2 -> getTurn()) -> toString().c_str());
+							getch();
+							echo();
+							if(typeid(*board.at(player1 -> getTurn())) == typeid(avenues)){
+								if(static_cast<properties*>(board.at(player1 -> getTurn())) -> getOwner()){
+									bool haveIt = false;
+									for (int i = 0; i < (player1 -> getProperties()).size(); i++){
+										if(player1 -> getProperties().at(i) == (board.at(player1 -> getTurn())))
+											haveIt = true;
+									}
+									if (haveIt){
+										mvprintw(10,80,"This property is yours");
+										mvprintw(12,80,"Do you want to buy a house or houses [Y=Yes/N=No]");
+									} else {
+										mvprintw(10,80,"This property is owned by -> ",player2 -> getName().c_str());
+										player2 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn()))) -> getRent());
+										player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getRent()) * -1);
+									}
+								} else {
+									char keyProperty[1];
+									mvprintw(10,80,"Choose your option");
+									mvprintw(12,80,"1.-Sale this property");
+									mvprintw(14,80,"2.-Ignore this and move on");
+									mvprintw(16,80,"Your option -> ");
+									getstr(keyProperty);
+									if(keyProperty[0] == '1'){
+										char keyPropertyConfirm[1];
+										mvprintw(18,80,"Are you sure do you want to sale this property? [Y=Yes/N=No]");
+										getstr(keyPropertyConfirm);
+										if(keyPropertyConfirm[0] == 'Y' || keyPropertyConfirm[0] == 'y'){
+											if(player1 -> getWallet() > static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()){
+												player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()) * -1);
+												mvprintw(20,80,"This property has been sale for you :3");
+												(player1 -> setProperties(static_cast<properties*>(board.at(player1 -> getTurn()))));
+												static_cast<properties*>(board.at(player1 -> getTurn())) -> setOwner(true);
+											}
+										} else if(keyPropertyConfirm[0] == 'N' || keyPropertyConfirm[0] == 'n')
+											mvprintw(18,80,"Ok, thanks for coming :3");
+									} else if (keyProperty[0] == '2'){
+										mvprintw(18,80,"Ok, get out of here then >.<");
+									}
+								}
+							}
+							cleanScreen();
+							playerTurn--;
+						} else if (keyPlayer[0] == '2'){
+							if((player2 -> getProperties()).empty())
+								mvprintw(14,80,"You don't have properties                                   ");
+							else {
+								for (int i = 0; i < player2 -> getProperties().size(); i++)
+									mvprintw(14+i,80,(player2 -> getProperties().at(i)) -> toString().c_str());
+							}
+						} else if (keyPlayer[0] == '3'){
+							mvprintw(14,80,player2 -> toString().c_str());
+						} else if (keyPlayer[0] == '4'){
+							gameOverPlayer1 = true;
+							mvprintw(14,80,"Player 2 quick, Player 1 is the winner");
+							for (int i = 0; i < board.size(); i++)
+								delete board.at(i);
+							players = false;
+						} else if (keyPlayer[0] == '5'){
+							ofstream output(filename, ios::binary || ios::out);
+							output.write(reinterpret_cast<char*>(&player1),sizeof(player1));
+							output.write(reinterpret_cast<char*>(&player2),sizeof(player2));
+							output.write(reinterpret_cast<char*>(&board),sizeof(board));
+							mvprintw(13,80,"Save game, don't worry, your can play later :3");
+							getch();
+							players = false;
+						} else if (keyPlayer[0] == '6'){
+							mvprintw(13,80,"Thanks for playing! :D");
+							for (int i = 0; i < board.size(); i++)
+								delete board.at(i);
+							players = false;
+						}
+					}
+				}
+			}
+			cleanScreen();
+			noecho();
+		} else if(key[0] == 'L' || key[0] == 'l'){
+			ifstream input(filename, ios::binary);
+			player* player1 = new player("");
+			player* player2 = new player("");
+			input.read(reinterpret_cast<char*>(&player1),sizeof(player1));
+			input.read(reinterpret_cast<char*>(&player2),sizeof(player2));
+			input.read(reinterpret_cast<char*>(&board),sizeof(board));
+			input.close();
+			cleanScreen();
+			char keyNew[1];
+			mvprintw(8,80,player1 -> toString().c_str());
+			mvprintw(10,80,player2 -> toString().c_str());
+			mvprintw(12,80,"Start game? [Y=>Yes/N=>No]: ");
+			getstr(keyNew);
+			char keyPlayer[1];
+			int dice1,dice2;
+			int spaces;
+			if(keyNew[0] == 'Y' || keyNew[0] == 'y'){
+				cleanScreen();
+				int playerTurn = 1;
+				bool players = true, quick = false, gameOverPlayer1 = false, gameOverPlayer2 = false;
+				while(players){
+					if(playerTurn == 1 && !player1 -> isWinner(gameOverPlayer1) && !player2 -> isWinner(gameOverPlayer2)){
+						mvprintw(4,80, "Player %d",playerTurn);
+						mvprintw(4,89, player1 -> getName().c_str());
 						mvprintw(5,80,"Choose your option...");
 						mvprintw(6,80,"1.-Throwing dice\n");
 						mvprintw(7,80,"2.-See your properties\n");
@@ -228,15 +374,15 @@ int main(int argc, char*argv[]){
 							noecho();
 							getch();
 							cleanScreen();
-							board.at(player2 -> getTurn()) -> printSquare(player2 -> getTurn());
-							mvprintw(32,20, board.at(player2 -> getTurn()) -> toString().c_str());
+							board.at(player1 -> getTurn()) -> printSquare(player1 -> getTurn());
+							mvprintw(32,20, board.at(player1 -> getTurn()) -> toString().c_str());
 							getch();
 							echo();
-							if(typeid(*board.at(player2 -> getTurn())) == typeid(properties)){
-								if(static_cast<properties*>(board.at(player2 -> getTurn())) -> getOwner()){
+							if(typeid(*board.at(player1 -> getTurn())) == typeid(avenues)){
+								if(static_cast<properties*>(board.at(player1 -> getTurn())) -> getOwner()){
 									bool haveIt = false;
-									for (int i = 0; i < (player2 -> getProperties()).size(); i++){
-										if((player2 -> getProperties()).at(i) == (board.at(player2 -> getTurn())))
+									for (int i = 0; i < (player1 -> getProperties()).size(); i++){
+										if(player1 -> getProperties().at(i) == (board.at(player1 -> getTurn())))
 											haveIt = true;
 									}
 									if (haveIt){
@@ -244,12 +390,210 @@ int main(int argc, char*argv[]){
 										mvprintw(12,80,"Do you want to buy a house or houses [Y=Yes/N=No]");
 									} else {
 										mvprintw(10,80,"This property is owned by -> ",player2 -> getName().c_str());
-										player1 -> setWallet((static_cast<properties*>(board.at(player2 -> getTurn()))) -> getRent());
-										player2 -> setWallet((static_cast<properties*>(board.at(player2 -> getTurn())) -> getRent()) * -1);
+										player2 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn()))) -> getRent());
+										player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getRent()) * -1);
+									}
+								} else {
+									char keyProperty[1];
+									mvprintw(10,80,"Choose your option");
+									mvprintw(12,80,"1.-Sale this property");
+									mvprintw(14,80,"2.-Ignore this and move on");
+									mvprintw(16,80,"Your option -> ");
+									getstr(keyProperty);
+									if(keyProperty[0] == '1'){
+										char keyPropertyConfirm[1];
+										mvprintw(18,80,"Are you sure do you want to sale this property? [Y=Yes/N=No]");
+										getstr(keyPropertyConfirm);
+										if(keyPropertyConfirm[0] == 'Y' || keyPropertyConfirm[0] == 'y'){
+											if(player1 -> getWallet() > static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()){
+												player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()) * -1);
+												mvprintw(20,80,"This property has been sale for you :3");
+												(player1 -> setProperties(static_cast<properties*>(board.at(player1 -> getTurn()))));
+												static_cast<properties*>(board.at(player1 -> getTurn())) -> setOwner(true);
+											}
+										} else if(keyPropertyConfirm[0] == 'N' || keyPropertyConfirm[0] == 'n')
+											mvprintw(18,80,"Ok, thanks for coming :3");
+									} else if (keyProperty[0] == '2'){
+										mvprintw(18,80,"Ok, get out of here then >.<");
+									}
+								}
+							} else if (typeid(*board.at(player1 -> getTurn())) == typeid(railway)){
+								if(static_cast<properties*>(board.at(player1 -> getTurn())) -> getOwner()){
+									bool haveIt = false;
+									for (int i = 0; i < (player1 -> getProperties()).size(); i++){
+										if(player1 -> getProperties().at(i) == (board.at(player1 -> getTurn())))
+											haveIt = true;
+									}
+									if (haveIt){
+										mvprintw(10,80,"This property is yours");
+									} else {
+										mvprintw(10,80,"This property is owned by -> ",player2 -> getName().c_str());
+										player2 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn()))) -> getRent());
+										player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getRent()) * -1);
+									}
+								} else {
+									char keyProperty[1];
+									mvprintw(10,80,"Choose your option");
+									mvprintw(12,80,"1.-Sale this property");
+									mvprintw(14,80,"2.-Ignore this and move on");
+									mvprintw(16,80,"Your option -> ");
+									getstr(keyProperty);
+									if(keyProperty[0] == '1'){
+										char keyPropertyConfirm[1];
+										mvprintw(18,80,"Are you sure do you want to sale this property? [Y=Yes/N=No]");
+										getstr(keyPropertyConfirm);
+										if(keyPropertyConfirm[0] == 'Y' || keyPropertyConfirm[0] == 'y'){
+											if(player1 -> getWallet() > static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()){
+												player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()) * -1);
+												mvprintw(20,80,"This property has been sale for you :3");
+												(player1 -> setProperties(static_cast<properties*>(board.at(player1 -> getTurn()))));
+												static_cast<properties*>(board.at(player1 -> getTurn())) -> setOwner(true);
+											}
+										} else if(keyPropertyConfirm[0] == 'N' || keyPropertyConfirm[0] == 'n')
+											mvprintw(18,80,"Ok, thanks for coming :3");
+									} else if (keyProperty[0] == '2'){
+										mvprintw(18,80,"Ok, get out of here then >.<");
 									}
 								}
 							}
+							getch();
+							cleanScreen();
 							playerTurn++;
+						} else if (keyPlayer[0] == '2'){
+							if((player1 -> getProperties()).empty())
+								mvprintw(14,80,"You don't have any properties                                ");
+							else {
+								for (int i = 0; i < player1 -> getProperties().size(); i++)
+									mvprintw(14+i,80,(player1 -> getProperties().at(i)) -> toString().c_str());
+							}
+						} else if (keyPlayer[0] == '3'){
+							mvprintw(14,80,player1 -> toString().c_str());
+						} else if (keyPlayer[0] == '4'){
+							gameOverPlayer2 = true;
+							mvprintw(14,80,"Player 1 quick, Player 2 is the winner");
+							players = false;
+						} else if (keyPlayer[0] == '5'){
+							ofstream output(filename, ios::binary || ios::out);
+							output.write(reinterpret_cast<char*>(&player1),sizeof(player1));
+							output.write(reinterpret_cast<char*>(&player2),sizeof(player2));
+							output.write(reinterpret_cast<char*>(&board),sizeof(board));
+							mvprintw(13,80,"Save game, don't worry, your can play later :3");
+							getch();
+							players = false;
+						} else if (keyPlayer[0] == '6'){
+							mvprintw(13,80,"Thanks for playing! :D");
+							players = false;
+						}
+					} else if(playerTurn == 2 && !player1 -> isWinner(gameOverPlayer1) && !player2 -> isWinner(gameOverPlayer2)){
+						mvprintw(4,80, "Player %d",playerTurn);
+						mvprintw(4,89, player2 -> getName().c_str());
+						mvprintw(5,80,"Choose your option...");
+						mvprintw(6,80,"1.-Throwing dice\n");
+						mvprintw(7,80,"2.-See your properties\n");
+						mvprintw(8,80,"3.-See your data\n");
+						mvprintw(9,80,"4.-Quick\n");
+						mvprintw(10,80,"5.-Save game\n");
+						mvprintw(11,80,"6.-End of the game\n");
+						mvprintw(12,80,"Your option? -> ");
+						getstr(keyPlayer);
+						if(keyPlayer[0] == '1'){
+							dice1 = (1 + rand() % 6);
+							dice2 = (1 + rand() % 6);
+							spaces = dice1 + dice2;
+							player2 -> setTurn(spaces);
+							init_pair(1, COLOR_BLACK, COLOR_WHITE);
+							attron(COLOR_PAIR(1));
+							drawDiceOne(dice1);
+							drawDiceTwo(dice2);
+							attroff(COLOR_PAIR(1));
+							noecho();
+							getch();
+							cleanScreen();
+							board.at(player2 -> getTurn()) -> printSquare(player2 -> getTurn());
+							mvprintw(32,20, board.at(player2 -> getTurn()) -> toString().c_str());
+							getch();
+							echo();
+							if(typeid(*board.at(player1 -> getTurn())) == typeid(avenues)){
+								board.at(player1 -> getTurn()) -> turnInSquare(board,player1,player2);
+								/*if(static_cast<properties*>(board.at(player1 -> getTurn())) -> getOwner()){
+									bool haveIt = false;
+									for (int i = 0; i < (player1 -> getProperties()).size(); i++){
+										if(player1 -> getProperties().at(i) == (board.at(player1 -> getTurn())))
+											haveIt = true;
+									}
+									if (haveIt){
+										mvprintw(10,80,"This property is yours");
+										mvprintw(12,80,"Do you want to buy a house or houses [Y=Yes/N=No]");
+									} else {
+										mvprintw(10,80,"This property is owned by -> ",player2 -> getName().c_str());
+										player2 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn()))) -> getRent());
+										player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getRent()) * -1);
+									}
+								} else {
+									char keyProperty[1];
+									mvprintw(10,80,"Choose your option");
+									mvprintw(12,80,"1.-Sale this property");
+									mvprintw(14,80,"2.-Ignore this and move on");
+									mvprintw(16,80,"Your option -> ");
+									getstr(keyProperty);
+									if(keyProperty[0] == '1'){
+										char keyPropertyConfirm[1];
+										mvprintw(18,80,"Are you sure do you want to sale this property? [Y=Yes/N=No]");
+										getstr(keyPropertyConfirm);
+										if(keyPropertyConfirm[0] == 'Y' || keyPropertyConfirm[0] == 'y'){
+											if(player1 -> getWallet() > static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()){
+												player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()) * -1);
+												mvprintw(20,80,"This property has been sale for you :3");
+												(player1 -> setProperties(static_cast<properties*>(board.at(player1 -> getTurn()))));
+												static_cast<properties*>(board.at(player1 -> getTurn())) -> setOwner(true);
+											}
+										} else if(keyPropertyConfirm[0] == 'N' || keyPropertyConfirm[0] == 'n')
+											mvprintw(18,80,"Ok, thanks for coming :3");
+									} else if (keyProperty[0] == '2'){
+										mvprintw(18,80,"Ok, get out of here then >.<");
+									}
+								}*/
+							} else if (typeid(*board.at(player2 -> getTurn())) == typeid(railway)){
+								if(static_cast<properties*>(board.at(player2 -> getTurn())) -> getOwner()){
+									bool haveIt = false;
+									for (int i = 0; i < (player2 -> getProperties()).size(); i++){
+										if(player1 -> getProperties().at(i) == (board.at(player2 -> getTurn())))
+											haveIt = true;
+									}
+									if (haveIt){
+										mvprintw(10,80,"This property is yours");
+									} else {
+										mvprintw(10,80,"This property is owned by -> ",player1 -> getName().c_str());
+										player1 -> setWallet((static_cast<properties*>(board.at(player2 -> getTurn()))) -> getRent());
+										player2 -> setWallet((static_cast<properties*>(board.at(player2 -> getTurn())) -> getRent()) * -1);
+									}
+								} else {
+									char keyProperty[1];
+									mvprintw(10,80,"Choose your option");
+									mvprintw(12,80,"1.-Sale this property");
+									mvprintw(14,80,"2.-Ignore this and move on");
+									mvprintw(16,80,"Your option -> ");
+									getstr(keyProperty);
+									if(keyProperty[0] == '1'){
+										char keyPropertyConfirm[1];
+										mvprintw(18,80,"Are you sure do you want to sale this property? [Y=Yes/N=No]");
+										getstr(keyPropertyConfirm);
+										if(keyPropertyConfirm[0] == 'Y' || keyPropertyConfirm[0] == 'y'){
+											if(player2 -> getWallet() > static_cast<properties*>(board.at(player2 -> getTurn())) -> getPrice()){
+												player2 -> setWallet((static_cast<properties*>(board.at(player2 -> getTurn())) -> getPrice()) * -1);
+												mvprintw(20,80,"This property has been sale for you :3");
+												(player2 -> setProperties(static_cast<properties*>(board.at(player1 -> getTurn()))));
+												static_cast<properties*>(board.at(player1 -> getTurn())) -> setOwner(true);
+											}
+										} else if(keyPropertyConfirm[0] == 'N' || keyPropertyConfirm[0] == 'n')
+											mvprintw(18,80,"Ok, thanks for coming :3");
+									} else if (keyProperty[0] == '2'){
+										mvprintw(18,80,"Ok, get out of here then >.<");
+									}
+								}
+							}
+							cleanScreen();
+							playerTurn--;
 						} else if (keyPlayer[0] == '2'){
 							if((player2 -> getProperties()).empty())
 								mvprintw(14,80,"You don't have properties                                   ");
@@ -266,7 +610,13 @@ int main(int argc, char*argv[]){
 								delete board.at(i);
 							players = false;
 						} else if (keyPlayer[0] == '5'){
-
+							ofstream output(filename, ios::binary || ios::out);
+							output.write(reinterpret_cast<char*>(&player1),sizeof(player1));
+							output.write(reinterpret_cast<char*>(&player2),sizeof(player2));
+							output.write(reinterpret_cast<char*>(&board),sizeof(board));
+							mvprintw(13,80,"Save game, don't worry, your can play later :3");
+							getch();
+							players = false;
 						} else if (keyPlayer[0] == '6'){
 							mvprintw(13,80,"Thanks for playing! :D");
 							for (int i = 0; i < board.size(); i++)
@@ -278,8 +628,6 @@ int main(int argc, char*argv[]){
 			}
 			cleanScreen();
 			noecho();
-		} else if(key[0] == 'L' || key[0] == 'l'){
-			
 			for (int i = 0; i < board.size(); i++)
 				delete board.at(i);
 		}else if (key[0] == 'E' || key[0] == 'e'){

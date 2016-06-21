@@ -80,6 +80,6 @@ void services::printSquare(int option){
 	}
 }
 
-bool services::turnInSquare(bool hola){
-	return hola;
+void services::turnInSquare(vector <square*> board, player& player1, player& player2){
+	
 }

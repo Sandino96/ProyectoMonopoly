@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include "properties.h"
-//#include "buildings.h"
 #include <vector>
 
 using std::string;
@@ -16,7 +15,6 @@ class player{
 	double wallet;
 	int turn;
   public:
-	//player(string, double, int, vector<Properties*>, cardOption, vector<Buildings*>);
 	player(string);
 	virtual~player();
 	string toString() const;
@@ -27,6 +25,6 @@ class player{
 	bool isWinner(bool);
 	double getWallet();
 	void setWallet(double);
-	void setProperties(vector<properties*>);
+	void setProperties(properties*);
 	vector<properties*> getProperties();
 };

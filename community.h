@@ -10,5 +10,5 @@ class community : public square{
   	virtual ~community();
   	string toString() const;
   	void printSquare(int);
-  	bool turnInSquare(bool);
+	void turnInSquare(vector<square*>,player&,player&);
 };

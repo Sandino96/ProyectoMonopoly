@@ -49,6 +49,6 @@ void go::printSquare(int option){
  	}
 }
 
-bool go::turnInSquare(bool hola){
-	return hola;
+void go::turnInSquare(vector <square*> board, player& player1, player& player2){
+	
 }

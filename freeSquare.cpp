@@ -50,7 +50,3 @@ void freeSquare::printSquare(int option){
 		attroff(COLOR_PAIR(1));
 	}
 }
-
-bool freeSquare::turnInSquare(bool hola){
-	return hola;
-}

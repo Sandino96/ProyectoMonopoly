@@ -10,7 +10,6 @@ class properties: public square{
 	double mortgaged;
 	bool owner;
 	double rent;
-
   public:
   	properties(double,double,bool,double);
   	virtual~properties();

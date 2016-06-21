@@ -10,5 +10,4 @@ class freeSquare : public square{
 	virtual ~freeSquare();
 	string toString() const;
 	void printSquare(int);
-	bool turnInSquare(bool);
 };

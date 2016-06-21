@@ -38,9 +38,7 @@ int player::getTurn(){
 
 void player::setTurn(int turn){
 	this -> turn += turn;
-	if(turn < 40)
-		this -> turn; 
-	else {
+	if(turn > 40){
 		this -> turn -= 40;
 		this -> wallet += 200;
 	}
@@ -66,8 +64,8 @@ string player::getName(){
 	return this -> name;
 }
 
-void player::setProperties(vector<properties*> mayor){
-	
+void player::setProperties(properties* property){
+	this -> mayor.push_back(property);
 }
 
 vector<properties*> player::getProperties(){

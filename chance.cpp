@@ -51,6 +51,6 @@ void chance::printSquare(int option){
 	}
 }
 
-bool chance::turnInSquare(bool hola){
-	return hola;
+void chance::turnInSquare(vector <square*> board, player& player1, player& player2){
+	
 }

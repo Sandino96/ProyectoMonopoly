@@ -132,6 +132,6 @@ void railway::printSquare(int option){
 	}
 }
 
-bool railway::turnInSquare(bool hola){
-	return hola;
+void railway::turnInSquare(vector <square*> board, player& player1, player& player2){
+	
 }
