@@ -1,4 +1,5 @@
 #include "jail.h"
+#include "others.h"
 #include "square.h"
 #include "player.h"
 #include <string>
@@ -48,7 +49,7 @@ void jail::printSquare(int option){
 		mvprintw(31,20,"******************************************\n");
 		attroff(COLOR_PAIR(1));
 	} else if(option == 10){
-		init_pair(1,COLOR_BLACK,COLOR_RED);
+		init_pair(1,COLOR_WHITE,COLOR_RED);
 		attron(COLOR_PAIR(1));
 		mvprintw(10,20,"******************************************\n");
 		mvprintw(11,20,"*        |                               *\n");
@@ -76,6 +77,6 @@ void jail::printSquare(int option){
 	}
 }
 
-void jail::turnInSquare(vector <square*> board, player& player1, player& player2){
+void jail::playerInSquare(player* playerInGame){
 	
 }

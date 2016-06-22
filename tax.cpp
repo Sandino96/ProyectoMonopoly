@@ -1,6 +1,7 @@
 #include "tax.h"
 #include "square.h"
 #include "player.h"
+#include "others.h"
 #include <string>
 #include <sstream>
 #include <ncurses.h>
@@ -78,6 +79,12 @@ void tax::printSquare(int option){
 	}
 }
 
-void tax::turnInSquare(vector <square*> board, player& player1, player& player2){
-	
+void tax::playerInSquare(player* playerInGame){
+	if(playerInGame ->getTurn () == 4){
+		playerInGame -> setWallet(-200);
+		mvprintw(12,80,"You already payed your taxes :3");
+	} else if (playerInGame ->getTurn () == 38){
+		playerInGame -> setWallet(-75);
+		mvprintw(12,80,"You already payed your taxes :3");
+	}
 }
