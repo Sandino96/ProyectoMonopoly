@@ -1,4 +1,5 @@
 #include "properties.h"
+#include "square.h"
 #include <string>
 #include <sstream>
 

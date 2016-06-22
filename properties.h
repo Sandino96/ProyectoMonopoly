@@ -1,10 +1,13 @@
 #pragma once
-#include <string>
 #include "square.h"
+#include "player.h"
+#include <vector>
 
-using std::string;
+using std::vector;
 
-class properties: public square{
+class player;
+
+class properties : public square{
   protected:
 	double price;
 	double mortgaged;
@@ -18,4 +21,5 @@ class properties: public square{
   	virtual double getRent();
   	virtual double getMortgaged();
   	virtual double getPrice();
+    virtual void buyProperty(vector<square*>,player*,player*) = 0;
 };

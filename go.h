@@ -1,13 +1,15 @@
 #pragma once
 #include "square.h"
+#include "player.h"
+#include "others.h"
 
-class go : public square{
+class go : public others{
   protected:
   	double salary;
   public:
   	go();
   	virtual ~go();
   	virtual string toString() const;
-  	bool turnInSquare(bool);
-	void turnInSquare(vector<square*>,player&,player&);
+  	void printSquare(int);
+	void playerInSquare(player*);
 };

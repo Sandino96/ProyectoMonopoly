@@ -1,5 +1,6 @@
 #pragma once
 #include "properties.h"
+#include "player.h"
 #include <string>
 
 class services : public properties{
@@ -8,5 +9,5 @@ class services : public properties{
 	virtual~services();
 	string toString() const;
 	void printSquare(int);
-	void turnInSquare(vector<square*>,player&,player&);
+	void buyProperty(vector<square*>,player*,player*);
 };

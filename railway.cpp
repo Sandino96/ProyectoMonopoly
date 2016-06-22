@@ -1,6 +1,8 @@
 #include "railway.h"
 #include "properties.h"
+#include "player.h"
 #include <string>
+#include <typeinfo>
 #include <ncurses.h>
 #include <sstream>
 
@@ -132,6 +134,52 @@ void railway::printSquare(int option){
 	}
 }
 
-void railway::turnInSquare(vector <square*> board, player& player1, player& player2){
-	
+void railway::buyProperty(vector<square*> board,player* player1,player* player2){
+	if(static_cast<properties*>(board.at(player1 -> getTurn())) -> getOwner()){
+		bool haveIt = false;
+		for (int i = 0; i < (player1 -> getMayor()).size(); i++){
+			if(player1 -> getMayor().at(i) == (board.at(player1 -> getTurn())))
+				haveIt = true;
+		}
+		if (haveIt)
+			mvprintw(10,80,"This railway is yours");
+		else {
+			mvprintw(10,80,"This railway is owned by -> ",player2 -> getName().c_str());
+			int counterRailways = 0;
+			for (int i = 0; i < player2 -> getMayor().size(); i++){
+				if (typeid(*player2 -> getMayor().at(i)) == typeid(railway))
+					counterRailways++;
+			}
+			player2 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn()))) -> getRent() * counterRailways);
+			player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getRent()) * -1 * counterRailways);
+			mvprintw(12,80,"Pay of rent %d",(static_cast<properties*>(board.at(player1 -> getTurn())) -> getRent()) * -1 * counterRailways);
+			if(((static_cast<properties*>(board.at(player1 -> getTurn())) -> getRent()) * -1 * counterRailways) > player1 -> getWallet()){
+				mvprintw(12,80,"You are a loser, you are broke :3");
+				player2 -> isWinner(true);
+			}
+		}
+	} else {
+		char keyProperty[1];
+		mvprintw(10,80,"Choose your option");
+		mvprintw(12,80,"1.-Sale this railway");
+		mvprintw(14,80,"2.-Ignore this and move on");
+		mvprintw(16,80,"Your option -> ");
+		getstr(keyProperty);
+		if(keyProperty[0] == '1'){
+			char keyPropertyConfirm[1];
+			mvprintw(18,80,"Are you sure do you want to sale this railway? [Y=Yes/N=No]");
+			getstr(keyPropertyConfirm);
+			if(keyPropertyConfirm[0] == 'Y' || keyPropertyConfirm[0] == 'y'){
+				if(player1 -> getWallet() > static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()){
+					player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()) * -1);
+					mvprintw(20,80,"This railway has been sale for you :3");
+					(player1 -> setMayor(static_cast<properties*>(board.at(player1 -> getTurn()))));
+					static_cast<properties*>(board.at(player1 -> getTurn())) -> setOwner(true);
+				}
+			} else if(keyPropertyConfirm[0] == 'N' || keyPropertyConfirm[0] == 'n')
+				mvprintw(18,80,"Ok, thanks for coming :3");
+		} else if (keyProperty[0] == '2'){
+			mvprintw(18,80,"Ok, get out of here then >.<");
+		}
+	}
 }

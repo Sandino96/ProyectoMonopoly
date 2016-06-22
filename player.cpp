@@ -37,10 +37,12 @@ int player::getTurn(){
 }
 
 void player::setTurn(int turn){
-	this -> turn += turn;
-	if(turn > 40){
-		this -> turn -= 40;
+	if((this -> turn + turn) >= 40){
+		int temporalTurn =(this -> turn + turn) - 40 ;
+		this -> turn = temporalTurn;
 		this -> wallet += 200;
+	} else {
+		this -> turn += turn;
 	}
 }
 
@@ -64,10 +66,14 @@ string player::getName(){
 	return this -> name;
 }
 
-void player::setProperties(properties* property){
+void player::setMayor(square* property){
 	this -> mayor.push_back(property);
 }
 
-vector<properties*> player::getProperties(){
+vector<square*> player::getMayor(){
 	return this -> mayor;
+}
+
+void player::setCard(square* aCardWouldSaveYou){
+	this -> aCardWouldSaveYou = aCardWouldSaveYou;
 }

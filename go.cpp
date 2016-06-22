@@ -1,5 +1,7 @@
 #include "go.h"
 #include "square.h"
+#include "player.h"
+#include "others.h"
 #include <ncurses.h>
 #include <string>
 #include <sstream>
@@ -49,6 +51,6 @@ void go::printSquare(int option){
  	}
 }
 
-void go::turnInSquare(vector <square*> board, player& player1, player& player2){
-	
+void go::playerInSquare(player* playerInGame){
+	playerInGame -> setWallet(200);
 }

@@ -7,10 +7,9 @@ using std::string;
 using std::vector;
 
 class player{
-	//cardOption option;
-	//vector<Buildings*> propietor;
   protected:
-  	vector<properties*> mayor;
+  	vector<square*> mayor;
+  	square* aCardWouldSaveYou;
 	string name;
 	double wallet;
 	int turn;
@@ -25,6 +24,7 @@ class player{
 	bool isWinner(bool);
 	double getWallet();
 	void setWallet(double);
-	void setProperties(properties*);
-	vector<properties*> getProperties();
+	void setMayor(square*);
+	vector<square*> getMayor();
+	void setCard(square*);
 };

@@ -13,5 +13,5 @@ class avenues : public properties{
   	virtual ~avenues();
   	string toString()const;
   	void printSquare(int);
-  	void turnInSquare(vector<square*>,player&,player&);
+  	void buyProperty(vector<square*>,player*,player*);
 };

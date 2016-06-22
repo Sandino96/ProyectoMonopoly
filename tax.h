@@ -1,5 +1,6 @@
 #pragma once
 #include "square.h"
+#include "player.h"
 #include <string>
 
 class tax : public square{

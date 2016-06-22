@@ -1,5 +1,6 @@
 #include "tax.h"
 #include "square.h"
+#include "player.h"
 #include <string>
 #include <sstream>
 #include <ncurses.h>

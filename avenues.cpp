@@ -636,20 +636,38 @@ string avenues::toString() const{
 	return ss.str();
 }
 
-void avenues::turnInSquare(vector <square*> board, player& player1, player& player2){
+void avenues::buyProperty(vector<square*> board,player* player1,player* player2){
 	if(static_cast<properties*>(board.at(player1 -> getTurn())) -> getOwner()){
 		bool haveIt = false;
-		for (int i = 0; i < (player1 -> getProperties()).size(); i++){
-			if(player1 -> getProperties().at(i) == (board.at(player1 -> getTurn())))
+		for (int i = 0; i < (player1 -> getMayor()).size(); i++){
+			if(player1 -> getMayor().at(i) == (board.at(player1 -> getTurn())))
 				haveIt = true;
 		}
 		if (haveIt){
+			//char house[1];
 			mvprintw(10,80,"This property is yours");
-			mvprintw(12,80,"Do you want to buy a house or houses [Y=Yes/N=No]");
+			/*mvprintw(12,80,"Do you want to buy a house or houses [Y=Yes/N=No]: ");
+			getstr(house);
+			if(house == 'Y' || house == 'y'){
+				char house2[1000];
+				mvprintw(14,80,"How much of houses do you want to buy [1-4]: ");
+				getstr(house2);
+				if(house2 == '1'){
+
+				}
+			} else if(house == 'N' || house == 'n'){
+				mvprintw(14,80,"Ok, thanks for coming :3");
+			}*/
 		} else {
 			mvprintw(10,80,"This property is owned by -> ",player2 -> getName().c_str());
-			player2 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn()))) -> getRent());
-			player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getRent()) * -1);
+			if((static_cast<properties*>(board.at(player1 -> getTurn()))) -> getRent() > player1 -> getWallet()){
+				mvprintw(12,80,"You are a loser, you are broke :3");
+				player2 -> isWinner(true);
+			} else {
+				player2 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn()))) -> getRent());
+				player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getRent()) * -1);
+				mvprintw(12,80,"Pay of rent %d",(static_cast<properties*>(board.at(player1 -> getTurn())) -> getRent()));
+			}
 		}
 	} else {
 		char keyProperty[1];
@@ -666,7 +684,7 @@ void avenues::turnInSquare(vector <square*> board, player& player1, player& play
 				if(player1 -> getWallet() > static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()){
 					player1 -> setWallet((static_cast<properties*>(board.at(player1 -> getTurn())) -> getPrice()) * -1);
 					mvprintw(20,80,"This property has been sale for you :3");
-					(player1 -> setProperties(static_cast<properties*>(board.at(player1 -> getTurn()))));
+					(player1 -> setMayor(static_cast<properties*>(board.at(player1 -> getTurn()))));
 					static_cast<properties*>(board.at(player1 -> getTurn())) -> setOwner(true);
 				}
 			} else if(keyPropertyConfirm[0] == 'N' || keyPropertyConfirm[0] == 'n')

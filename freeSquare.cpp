@@ -1,4 +1,5 @@
 #include "freeSquare.h"
+#include "others.h"
 #include "square.h"
 #include <string>
 #include <sstream>
@@ -17,7 +18,7 @@ freeSquare::~freeSquare(){
 
 string freeSquare::toString() const{
 	stringstream ss;
-	ss << "FREE PARKING, You don't have to do anything :3";
+	ss << "FREE PARKING";
 	return ss.str();
 }
 
@@ -49,4 +50,8 @@ void freeSquare::printSquare(int option){
 		mvprintw(31,20,"******************************************\n");
 		attroff(COLOR_PAIR(1));
 	}
+}
+
+void freeSquare::playerInSquare(player* playerInGame){
+	mvprintw(12,80,"You don't have to do anything :3");
 }
