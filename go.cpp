@@ -10,7 +10,6 @@ using std::string;
 using std::stringstream;
 
 go::go(){
-	this -> salary = 200;
 }
 
 go::~go(){

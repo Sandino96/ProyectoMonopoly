@@ -57,45 +57,45 @@ int main(int argc, char*argv[]){
 		cleanScreen();
 		if(key[0] == 'n' || key[0] == 'N'){
 			board.push_back(new go());
-			board.push_back(new avenues(60,30,false,2,0,0));
+			board.push_back(new avenues(60,30,false,2));
 			board.push_back(new community());
-			board.push_back(new avenues(60,30,false,4,0,0));
+			board.push_back(new avenues(60,30,false,4));
 			board.push_back(new tax());
 			board.push_back(new railway(200,100,false,25));
-			board.push_back(new avenues(100,50,false,6,0,0));
+			board.push_back(new avenues(100,50,false,6));
 			board.push_back(new chance());
-			board.push_back(new avenues(100,50,false,6,0,0));
-			board.push_back(new avenues(120,60,false,8,0,0));
+			board.push_back(new avenues(100,50,false,6));
+			board.push_back(new avenues(120,60,false,8));
 			board.push_back(new jail());
-			board.push_back(new avenues(140,70,false,10,0,0));
+			board.push_back(new avenues(140,70,false,10));
 			board.push_back(new services(150,75,false,0));
-			board.push_back(new avenues(140,70,false,10,0,0));
-			board.push_back(new avenues(160,80,false,12,0,0));
+			board.push_back(new avenues(140,70,false,10));
+			board.push_back(new avenues(160,80,false,12));
 			board.push_back(new railway(200,100,false,25));
-			board.push_back(new avenues(180,90,false,14,0,0));
+			board.push_back(new avenues(180,90,false,14));
 			board.push_back(new community());
-			board.push_back(new avenues(180,90,false,14,0,0));
-			board.push_back(new avenues(200,100,false,16,0,0));
+			board.push_back(new avenues(180,90,false,14));
+			board.push_back(new avenues(200,100,false,16));
 			board.push_back(new freeSquare());
-			board.push_back(new avenues(220,110,false,18,0,0));
+			board.push_back(new avenues(220,110,false,18));
 			board.push_back(new chance());
-			board.push_back(new avenues(220,110,false,18,0,0));
-			board.push_back(new avenues(240,120,false,20,0,0));
+			board.push_back(new avenues(220,110,false,18));
+			board.push_back(new avenues(240,120,false,20));
 			board.push_back(new railway(200,100,false,25));
-			board.push_back(new avenues(260,130,false,22,0,0));
-			board.push_back(new avenues(260,130,false,22,0,0));
+			board.push_back(new avenues(260,130,false,22));
+			board.push_back(new avenues(260,130,false,22));
 			board.push_back(new services(150,75,false,0));
-			board.push_back(new avenues(280,140,false,24,0,0));
+			board.push_back(new avenues(280,140,false,24));
 			board.push_back(new jail());
-			board.push_back(new avenues(300,150,false,26,0,0));
-			board.push_back(new avenues(300,150,false,26,0,0));
+			board.push_back(new avenues(300,150,false,26));
+			board.push_back(new avenues(300,150,false,26));
 			board.push_back(new community());
-			board.push_back(new avenues(320,160,false,28,0,0));
+			board.push_back(new avenues(320,160,false,28));
 			board.push_back(new railway(200,100,false,25));
 			board.push_back(new chance());
-			board.push_back(new avenues(350,175,false,35,0,0));
+			board.push_back(new avenues(350,175,false,35));
 			board.push_back(new tax());
-			board.push_back(new avenues(400,200,false,50,0,0));
+			board.push_back(new avenues(400,200,false,50));
 			char keyNew[1];
 			char namePlayer1[50];
 			char namePlayer2[50];
@@ -160,6 +160,15 @@ int main(int argc, char*argv[]){
 								static_cast<chance*>(board.at(player1 -> getTurn())) -> drawACard(board,player1);
 							else if(typeid(*board.at(player1 -> getTurn())) == typeid(community))
 								static_cast<community*>(board.at(player1 -> getTurn())) -> drawACard(board,player1);
+							else if(typeid(*board.at(player1 -> getTurn())) == typeid(go))
+								static_cast<go*>(board.at(player1 -> getTurn())) -> playerInSquare(player1);
+							else if(typeid(*board.at(player1 -> getTurn())) == typeid(jail)){
+								for (int i = 0; i < 3; i++)
+										static_cast<jail*>(board.at(player1 -> getTurn())) -> playerInSquare(player1);
+							} else if(typeid(*board.at(player1 -> getTurn())) == typeid(freeSquare))
+								static_cast<freeSquare*>(board.at(player1 -> getTurn())) -> playerInSquare(player1);
+							else if(typeid(*board.at(player1 -> getTurn())) == typeid(tax))
+								static_cast<tax*>(board.at(player1 -> getTurn())) -> playerInSquare(player1);
 							getch();
 							cleanScreen();
 							playerTurn++;
@@ -229,6 +238,15 @@ int main(int argc, char*argv[]){
 								static_cast<chance*>(board.at(player2 -> getTurn())) -> drawACard(board,player2);
 							else if(typeid(*board.at(player2 -> getTurn())) == typeid(community))
 								static_cast<community*>(board.at(player2 -> getTurn())) -> drawACard(board,player2);
+							else if(typeid(*board.at(player2 -> getTurn())) == typeid(go))
+								static_cast<go*>(board.at(player2 -> getTurn())) -> playerInSquare(player2);
+							else if(typeid(*board.at(player2 -> getTurn())) == typeid(jail)){
+								for (int i = 0; i < 3; i++)
+										static_cast<jail*>(board.at(player2 -> getTurn())) -> playerInSquare(player2);
+							} else if(typeid(*board.at(player2 -> getTurn())) == typeid(freeSquare))
+								static_cast<freeSquare*>(board.at(player2 -> getTurn())) -> playerInSquare(player2);
+							else if(typeid(*board.at(player2 -> getTurn())) == typeid(tax))
+								static_cast<tax*>(board.at(player2 -> getTurn())) -> playerInSquare(player2);
 							getch();
 							cleanScreen();
 							playerTurn--;
@@ -330,6 +348,15 @@ int main(int argc, char*argv[]){
 								static_cast<chance*>(board.at(player1 -> getTurn())) -> drawACard(board,player1);
 							else if(typeid(*board.at(player1 -> getTurn())) == typeid(community))
 								static_cast<community*>(board.at(player1 -> getTurn())) -> drawACard(board,player1);
+							else if(typeid(*board.at(player1 -> getTurn())) == typeid(go))
+								static_cast<go*>(board.at(player1 -> getTurn())) -> playerInSquare(player1);
+							else if(typeid(*board.at(player1 -> getTurn())) == typeid(jail)){
+								for (int i = 0; i < 3; i++)
+										static_cast<jail*>(board.at(player1 -> getTurn())) -> playerInSquare(player1);
+							} else if(typeid(*board.at(player1 -> getTurn())) == typeid(freeSquare))
+								static_cast<freeSquare*>(board.at(player1 -> getTurn())) -> playerInSquare(player1);
+							else if(typeid(*board.at(player1 -> getTurn())) == typeid(tax))
+								static_cast<tax*>(board.at(player1 -> getTurn())) -> playerInSquare(player1);
 							getch();
 							cleanScreen();
 							playerTurn++;
@@ -399,6 +426,15 @@ int main(int argc, char*argv[]){
 								static_cast<chance*>(board.at(player2 -> getTurn())) -> drawACard(board,player2);
 							else if(typeid(*board.at(player2 -> getTurn())) == typeid(community))
 								static_cast<community*>(board.at(player2 -> getTurn())) -> drawACard(board,player2);
+							else if(typeid(*board.at(player2 -> getTurn())) == typeid(go))
+								static_cast<go*>(board.at(player2 -> getTurn())) -> playerInSquare(player2);
+							else if(typeid(*board.at(player2 -> getTurn())) == typeid(jail)){
+								for (int i = 0; i < 3; i++)
+										static_cast<jail*>(board.at(player2 -> getTurn())) -> playerInSquare(player2);
+							} else if(typeid(*board.at(player2 -> getTurn())) == typeid(freeSquare))
+								static_cast<freeSquare*>(board.at(player2 -> getTurn())) -> playerInSquare(player2);
+							else if(typeid(*board.at(player2 -> getTurn())) == typeid(tax))
+								static_cast<tax*>(board.at(player2 -> getTurn())) -> playerInSquare(player2);
 							getch();
 							cleanScreen();
 							playerTurn--;

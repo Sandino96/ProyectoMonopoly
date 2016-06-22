@@ -21,5 +21,5 @@ class properties : public square{
   	virtual double getRent();
   	virtual double getMortgaged();
   	virtual double getPrice();
-    virtual void buyProperty(vector<square*>,player*,player*) = 0;
+    	virtual void buyProperty(vector<square*>,player*,player*) = 0;
 };

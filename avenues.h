@@ -6,10 +6,8 @@
 using std::string;
 
 class avenues : public properties{
-	int houses;
-	int hotels;
   public:
-  	avenues(double,double,bool,double,int,int);
+  	avenues(double,double,bool,double);
   	virtual ~avenues();
   	string toString()const;
   	void printSquare(int);

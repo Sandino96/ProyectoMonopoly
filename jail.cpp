@@ -78,5 +78,7 @@ void jail::printSquare(int option){
 }
 
 void jail::playerInSquare(player* playerInGame){
-	
+	if(playerInGame -> getTurn() == 30 || playerInGame -> getTurn() == 10){
+		playerInGame -> setTurn(10);
+	}
 }

@@ -77,3 +77,4 @@ vector<square*> player::getMayor(){
 void player::setCard(square* aCardWouldSaveYou){
 	this -> aCardWouldSaveYou = aCardWouldSaveYou;
 }
+

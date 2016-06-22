@@ -4,8 +4,6 @@
 #include "others.h"
 
 class go : public others{
-  protected:
-  	double salary;
   public:
   	go();
   	virtual ~go();

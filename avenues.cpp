@@ -8,7 +8,7 @@
 using std::string;
 using std::stringstream;
 
-avenues::avenues(double price, double mortgaged,bool owner,double rent, int houses, int hotels):properties(price,mortgaged,owner,rent),houses(houses),hotels(hotels){
+avenues::avenues(double price, double mortgaged,bool owner,double rent):properties(price,mortgaged,owner,rent){
 }
 
 avenues::~avenues(){
